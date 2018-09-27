@@ -9,9 +9,9 @@ class Comment extends Model
 {
 	use SoftDeletes;
 
-	protected $fillable = ['comment', 'user_id', 'task_id', 'todo_id'];
+	protected $fillable = ['comment', 'user_id', 'commentable_id', 'commentable_type'];
 
-	protected $visible = ['id', 'comment', 'user', 'todo', 'task'];
+	protected $visible = ['id', 'comment', 'user', 'commentable'];
 
 	public $timestamps = false;
 
@@ -22,18 +22,28 @@ class Comment extends Model
 		return $this->belongsTo(User::class);
 	}
 
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-	 */
-	public function task(){
-		return $this->belongsTo(Task::class);
-	}
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+	public function commentable(){
+	    return $this->morphTo('commentable', 'commentable_type', 'commentable_id', 'id');
+    }
 
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-	 */
-	public function todo(){
-		return $this->belongsTo(Todo::class);
-	}
+    /**
+     * @param $type
+     * @return null|string
+     */
+    public  static function getCommentableClass($type){
+	    switch ($type){
+            case 'task':
+                return Task::class;
+                break;
+            case 'todo':
+                return Todo::class;
+                break;
+            default:
+                return null;
+        }
+    }
 }
 

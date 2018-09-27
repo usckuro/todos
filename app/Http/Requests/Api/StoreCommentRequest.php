@@ -25,8 +25,8 @@ class StoreCommentRequest extends Request
     {
         return [
             'comment' => 'max:255',
-            'task_id' => 'required_without:todo_id|exists:tasks,id',
-            'todo_id' => 'required_without:task_id|exists:todos,id'
+            'commentable_id' => 'required|numeric',
+            'type' => 'required|in:task,todo'
         ];
     }
 }

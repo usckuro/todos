@@ -20,12 +20,12 @@ class Todo extends Model
 		return $this->belongsTo(User::class);
 	}
 
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-	 */
-	public function comments(){
-		return $this->hasMany(Comment::class);
-	}
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function comments(){
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 
 	/**
 	 * @param $query

@@ -19,13 +19,13 @@ class DatabaseSeeder extends Seeder
             //generate lists
             factory('App\Models\Todo', 2)->create(['user_id' => $user_model->id])->each(function($todo_model) use($user_model){
                 //add comments in list
-                factory('App\Models\Comment', rand(0,2))->create(['user_id' => $user_model->id, 'todo_id' => $todo_model->id]);
+                factory('App\Models\Comment', rand(0,2))->create(['user_id' => $user_model->id, 'commentable_id' => $todo_model->id, 'commentable_type' => 'App\Models\Todo']);
             });
 
             //generate tasks in list
             factory('App\Models\Task', rand(0,5))->create()->each(function($task_model) use($user_model){
                 //add comments in tasks
-                factory('App\Models\Comment', rand(0,2))->create(['user_id' => $user_model->id, 'task_id' => $task_model->id]);
+                factory('App\Models\Comment', rand(0,2))->create(['user_id' => $user_model->id, 'commentable_id' => $task_model->id, 'commentable_type' => 'App\Models\Task']);
                 //creates relation between tasks and users
                 TaskUser::create(['user_id' => $user_model->id, 'task_id' => $task_model->id]);
             });

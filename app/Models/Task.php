@@ -20,11 +20,11 @@ class Task extends Model
 		return $this->belongsToMany(User::class, 'task_users', 'task_id', 'user_id', 'id');
 	}
 
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-	 */
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
 	public function comments(){
-		return $this->hasMany(Comment::class);
+		return $this->morphMany(Comment::class, 'commentable');
 	}
 
 	public function task_users(){
